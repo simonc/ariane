@@ -19,14 +19,28 @@ module Ariane
       end
 
       def item(crumb, active=false)
-        classes  = options[:item_class]
-        classes << options[:active_class] if classes && active
+        classes = options[:item_class]
+
+        if active && options[:active_class]
+          classes ||= ''
+          classes << options[:active_class]
+        end
 
         content_tag(:li, class: classes) do
           out = link(crumb, active)
           out << divider if divider && !active
           out
         end
+      end
+
+      def link(crumb, active=false)
+        link_active = !active || options[:link_active]
+        if crumb.url && link_active
+          link = link_to crumb.text, crumb.url, class: options[:link_class]
+        else
+          link = crumb.text
+        end
+        link
       end
 
       def divider

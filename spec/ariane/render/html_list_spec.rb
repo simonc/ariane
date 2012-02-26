@@ -54,6 +54,40 @@ module Ariane
         end
       end
 
+      describe "#link" do
+        before do
+          @html_list = HTMLList.new
+          @crumb = Crumb.new 'text', 'url'
+        end
+
+        it "returns the link for the crumb" do
+          @html_list.link(@crumb).should == '<a href="url">text</a>'
+        end
+
+        it "sets the link class" do
+          @html_list.options[:link_class] = 'test'
+          @html_list.link(@crumb).should == '<a href="url" class="test">text</a>'
+        end
+
+        it "returns a link if the crumb has an url" do
+          @html_list.link(@crumb).should == '<a href="url">text</a>'
+        end
+
+        it "returns a link if the crumb is active and link_active is true" do
+          @html_list.options[:link_active] = true
+          @html_list.link(@crumb, true).should =~ /<a /
+        end
+
+        it "returns crumb's text if the crumb has no url" do
+          @crumb.url = nil
+          @html_list.link(@crumb).should == @crumb.text
+        end
+
+        it "returns crumb's text if the crumb is active and link_active is false" do
+          @html_list.link(@crumb, true).should == @crumb.text
+        end
+      end
+
       describe "#divider" do
         it "returns the HTML list divider" do
           HTMLList.new.divider.should == '<span class="divider">/</span>'
