@@ -7,11 +7,12 @@ Gem::Specification.new do |s|
   s.version     = Ariane::VERSION
   s.authors     = ["Simon COURTOIS"]
   s.email       = ["scourtois@cubyx.fr"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
-
-  s.rubyforge_project = "ariane"
+  s.homepage    = "http://github.com/simonc/ariane"
+  s.summary     = "A flexible breadcrumb system for Rails, fully compatible " \
+                  "with the Twitter Bootstrap."
+  s.description = "Ariane is a flexible breadcrumb system for Rails. It is "  \
+                  "fully compatible with the Twitter Bootstrap and can be "   \
+                  "adapted to any kind of output."
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
