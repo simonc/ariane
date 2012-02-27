@@ -82,6 +82,11 @@ module Ariane
         it "does not append the divider if the crumb is active" do
           @html.item(@crumb, true).should_not =~ %r[ / $]
         end
+
+        it "uses the divider from options, not the divider method" do
+          @html.options[:divider] = 'custom'
+          @html.item(@crumb).should =~ /custom/
+        end
       end
 
       describe "#link" do

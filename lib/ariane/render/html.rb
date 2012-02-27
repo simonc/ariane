@@ -43,7 +43,7 @@ module Ariane
 
       def item(crumb, active=false)
         out = link(crumb, active)
-        out << divider if divider && !active
+        out << options[:divider] if options[:divider] && !active
         out
       end
 

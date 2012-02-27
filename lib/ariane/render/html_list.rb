@@ -28,7 +28,7 @@ module Ariane
 
         content_tag(:li, class: classes) do
           out = link(crumb, active)
-          out << divider if divider && !active
+          out << options[:divider] if options[:divider] && !active
           out
         end
       end
