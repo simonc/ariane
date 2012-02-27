@@ -11,6 +11,10 @@ Add the following line to your `Gemfile`:
 gem 'ariane'
 ```
 
+And then execute:
+
+    bundle
+
 ## Requirements
 
 * Ruby >= 1.9.x
