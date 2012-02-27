@@ -61,7 +61,7 @@ module Ariane
         else
           link = crumb.text
         end
-        link
+        link.html_safe
       end
     end
 

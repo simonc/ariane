@@ -91,6 +91,15 @@ module Ariane
         it "returns crumb's text if the crumb is active and link_active is false" do
           @html_list.link(@crumb, true).should == @crumb.text
         end
+
+        it "returns an html_safe string when it returns a link" do
+          @html_list.link(@crumb).html_safe?.should be_true
+        end
+
+        it "returns an html_safe string when it returns text" do
+          @crumb.url = nil
+          @html_list.link(@crumb).html_safe?.should be_true
+        end
       end
 
       describe "#divider" do
