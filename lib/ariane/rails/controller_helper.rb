@@ -1,4 +1,5 @@
 module Ariane
+  # Adds the ariane helper to controllers.
   module ControllerHelper
     def ariane
       if !Ariane.request_env || Ariane.request != request.object_id

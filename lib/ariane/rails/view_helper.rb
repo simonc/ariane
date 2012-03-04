@@ -1,4 +1,5 @@
 module Ariane
+  # Adds the ariane helper to views.
   module ViewHelper
     def ariane
       Ariane.breadcrumb
