@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.3
+
+* IMPROVED: Most of the code is now documented
+
 ## 0.0.2
 
 * FIX: HTML#link and HTMLLink#link return a non html safe string when return
