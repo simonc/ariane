@@ -6,7 +6,7 @@ module Ariane
       @crumbs ||= []
     end
 
-    def add(text='', url=nil, &block)
+    def add(text='', url=nil)
       new_crumb = Crumb.new(text, url)
       yield new_crumb if block_given?
       crumbs << new_crumb
