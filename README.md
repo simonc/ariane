@@ -3,6 +3,8 @@
 Ariane is a flexible breadcrumb system for Rails. And it's fully compatible with 
 the [Twitter Bootstrap](http://twitter.github.com/bootstrap/) !
 
+It works perfectly with Rails 3 and allows to use I18n.
+
 ## Installation
 
 Add the following line to your `Gemfile`:
@@ -182,6 +184,15 @@ You'll obtain the following HTML:
 
 You can create a complete renderer, simply take a look at
 `lib/ariane/render/html.rb` for a complete example implementation.
+
+### I18n
+
+Since Ariane is used in before filters or in the views, it supports
+I18n out of the box.
+
+``` ruby
+ariane.add t('home'), root_path
+```
 
 ## Boring legal stuff
 
