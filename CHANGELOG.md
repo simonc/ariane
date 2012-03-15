@@ -2,6 +2,7 @@
 
 ## 0.0.3
 
+* FIX: #2 A Crumb should be able to store random data
 * IMPROVED: Most of the code is now documented
 
 ## 0.0.2
