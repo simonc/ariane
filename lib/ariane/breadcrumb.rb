@@ -23,8 +23,7 @@ module Ariane
 
     # Public: Add a Crumb to the crumbs list.
     #
-    # text - A String printed as text of crumb (default: '').
-    # url  - A String used as URL of the crumb (default: nil).
+    # args - Any arguments that can be passed to Crumb#initialize.
     #
     # Yields the new Crumb before it is added to the list.
     #
@@ -32,10 +31,11 @@ module Ariane
     #
     #   ariane.add 'Home', root_path
     #   ariane.add 'Other'
+    #   ariane.add 'Foo', root_path, :foo => :bar
     #
     # Returns nothing.
-    def add(text='', url=nil)
-      new_crumb = Crumb.new(text, url)
+    def add(*args)
+      new_crumb = Crumb.new(*args)
       yield new_crumb if block_given?
       crumbs << new_crumb
     end

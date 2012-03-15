@@ -17,10 +17,11 @@ module Ariane
     describe "#add" do
       it "creates a new crumb and push it to crumbs" do
         breadcrumb = Breadcrumb.new
-        breadcrumb.add 'text', 'url'
+        breadcrumb.add 'text', 'url', :foo => :bar
         breadcrumb.crumbs.count.should be(1)
         breadcrumb.crumbs.last.text.should == 'text'
         breadcrumb.crumbs.last.url.should  == 'url'
+        breadcrumb.crumbs.last.data.should == { :foo => :bar }
       end
 
       it "yields passing the new crumb if a block is given" do
