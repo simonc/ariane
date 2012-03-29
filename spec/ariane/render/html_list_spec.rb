@@ -106,6 +106,10 @@ module Ariane
         it "returns the HTML list divider" do
           HTMLList.new.divider.should == '<span class="divider">/</span>'
         end
+
+        it "returns the HTML list divider for a custom divider" do
+          HTMLList.new(divider: ' > ').divider.should == '<span class="divider">&gt;</span>'
+        end
       end
     end
 
