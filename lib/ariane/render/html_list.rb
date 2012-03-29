@@ -93,7 +93,7 @@ module Ariane
 
         content_tag(:li, class: classes) do
           out = link(crumb, active)
-          out << options[:divider] if options[:divider] && !active
+          out << divider unless active
           out
         end
       end
@@ -133,7 +133,7 @@ module Ariane
       #
       # Returns the String representing the html divider.
       def divider
-        content_tag(:span, '/', class: 'divider')
+        content_tag(:span, options[:divider].strip, class: 'divider')
       end
     end
 

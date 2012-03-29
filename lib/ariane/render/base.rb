@@ -13,7 +13,7 @@ module Ariane
       #                      (default: Base#divider).
       def initialize(options={})
         @options = {
-          divider: divider
+          divider: ' / '
         }.merge(options)
       end
 
