@@ -2,8 +2,10 @@
 
 ## 0.0.3
 
+* FIX: The HTMLList divider is now rendered correctly (@PatrickMa)
 * FIX: #2 A Crumb should be able to store random data
 * IMPROVED: Most of the code is now documented
+* IMPROVED: The tests are now using subject (@PatrickMa)
 
 ## 0.0.2
 
