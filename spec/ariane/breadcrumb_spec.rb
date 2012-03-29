@@ -2,13 +2,15 @@ require 'ariane'
 
 module Ariane
   describe Breadcrumb do
+    subject { Breadcrumb.new }
+
     describe "#crumbs" do
       it "has a crumbs method that returns an Enumerable" do
-        Breadcrumb.new.crumbs.is_a?(Enumerable).should be_true
+        subject.crumbs.is_a?(Enumerable).should be_true
       end
 
       it "set the crumbs to an empty Enumerable by default" do
-        crumbs = Breadcrumb.new.crumbs
+        crumbs = subject.crumbs
         crumbs.respond_to?(:count).should be_true
         crumbs.count.should be(0)
       end
@@ -16,20 +18,18 @@ module Ariane
 
     describe "#add" do
       it "creates a new crumb and push it to crumbs" do
-        breadcrumb = Breadcrumb.new
-        breadcrumb.add 'text', 'url', :foo => :bar
-        breadcrumb.crumbs.count.should be(1)
-        breadcrumb.crumbs.last.text.should == 'text'
-        breadcrumb.crumbs.last.url.should  == 'url'
-        breadcrumb.crumbs.last.data.should == { :foo => :bar }
+        subject.add 'text', 'url', :foo => :bar
+        subject.crumbs.count.should be(1)
+        subject.crumbs.last.text.should == 'text'
+        subject.crumbs.last.url.should  == 'url'
+        subject.crumbs.last.data.should == { :foo => :bar }
       end
 
       it "yields passing the new crumb if a block is given" do
-        breadcrumb = Breadcrumb.new
-        breadcrumb.add 'text' do |crumb|
+        subject.add 'text' do |crumb|
           crumb.url = 'url'
         end
-        breadcrumb.crumbs.last.url.should == 'url'
+        subject.crumbs.last.url.should == 'url'
       end
     end
 
@@ -39,10 +39,9 @@ module Ariane
 
       it "uses Ariane's default renderer if none is passed as argument" do
         Ariane.default_renderer = test_renderer
-        breadcrumb = Breadcrumb.new
-        breadcrumb.add 'text', 'url'
+        subject.add 'text', 'url'
         test_renderer.should_receive(:render)
-        breadcrumb.render
+        subject.render
       end
 
       it "instanciates the renderer if a class is given" do
@@ -55,10 +54,9 @@ module Ariane
       end
 
       it "calls render on the renderer, passing it the cumbs" do
-        breadcrumb = Breadcrumb.new
-        breadcrumb.add 'text', 'url'
-        test_renderer.should_receive(:render).with(breadcrumb.crumbs)
-        breadcrumb.render(test_renderer)
+        subject.add 'text', 'url'
+        test_renderer.should_receive(:render).with(subject.crumbs)
+        subject.render(test_renderer)
       end
     end
   end
