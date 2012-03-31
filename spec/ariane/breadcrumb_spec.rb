@@ -18,7 +18,7 @@ module Ariane
 
     describe "#add" do
       it "creates a new crumb and push it to crumbs" do
-        subject.add 'text', 'url', :foo => :bar
+        subject.add 'text', 'url', 1, :foo => :bar
         subject.crumbs.count.should be(1)
         subject.crumbs.last.text.should == 'text'
         subject.crumbs.last.url.should  == 'url'

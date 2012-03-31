@@ -16,7 +16,12 @@ module Ariane
       end
 
       it "sets its data based on third argument of the initializer" do
-        crumb = Crumb.new('text', 'url', :foo => :bar)
+        crumb = Crumb.new('text', 'url', 1)
+        crumb.level.should == 1
+      end
+
+      it "sets its data based on fourth argument of the initializer" do
+        crumb = Crumb.new('text', 'url', 1, :foo => :bar)
         crumb.data.should == { :foo => :bar }
       end
     end
