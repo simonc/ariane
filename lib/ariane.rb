@@ -1,6 +1,7 @@
 require 'ariane/version'
 require 'ariane/crumb'
 require 'ariane/breadcrumb'
+require 'ariane/breadcrumb_stack'
 require 'ariane/render'
 
 require 'ariane/rails' if defined?(Rails)
