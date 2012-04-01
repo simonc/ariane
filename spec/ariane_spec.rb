@@ -15,12 +15,12 @@ describe Ariane do
     end
   end
 
-  describe "#request_env=" do
-    it "sets the breacrumb env variable" do
-      Ariane.request_env = {}
-      Ariane.request_env[:breadcrumb].should_not be_nil
-    end
-  end
+  # describe "#request_env=" do
+  #   it "sets the breacrumb env variable" do
+  #     Ariane.request_env = {}
+  #     Ariane.request_env[:breadcrumb].should_not be_nil
+  #   end
+  # end
 
   describe "#breadcrumb" do
     it "returns the breadcrumb from the request_env" do

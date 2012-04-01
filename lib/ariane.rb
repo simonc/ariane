@@ -33,7 +33,6 @@ module Ariane
     # Returns nothing.
     def request_env=(environment)
       @request_env = environment
-      @request_env[:breadcrumb] ||= Breadcrumb.new
     end
 
     # Internal: Gets the request environment.
@@ -42,6 +41,25 @@ module Ariane
     def request_env
       @request_env if defined?(@request_env)
     end
+
+
+    # Internal: Sets the session
+    #
+    # If the :breadcrumb key is not present in the session, it will be set
+    # to a new instance of Breadcrumb.
+    #
+    # Returns nothing.
+    def session=(session)
+      @session = session
+    end
+
+    # Internal: Gets the request environment.
+    #
+    # Returns the session object
+    def session
+      @session if defined?(@session)
+    end
+
 
     # Internal: Gets the request id.
     #
@@ -63,14 +81,22 @@ module Ariane
     #
     # Returns a Breadcrumb.
     def breadcrumb
-      @request_env[:breadcrumb]
+      if @use_session_stack
+        @session[:breadcrumb] ||= BreadcrumbStack.new 
+      else
+        @request_env[:breadcrumb] ||= Breadcrumb.new 
+      end
     end
 
     # Internal: Sets the Breadcrumb.
     #
     # Returns nothing.
     def breadcrumb=(breadcrumb)
-      @request_env[:breadcrumb] = breadcrumb
+      if @use_session_stack
+        @session[:breadcrumb] = breadcrumb
+      else
+        @request_env[:breadcrumb] = breadcrumb
+      end
     end
 
     # Public: Returns the default renderer used by Ariane.
@@ -106,7 +132,7 @@ module Ariane
     def default_renderer=(renderer)
       @default_renderer = renderer.is_a?(Class) ? renderer.new : renderer
     end
-    
+
     # Public: Returns session stack setting
     #
     # Determines whether Ariane will use the default stateless breadcrumb,
