@@ -49,4 +49,17 @@ describe Ariane do
       Ariane.default_renderer.should == ""
     end
   end
+
+  describe "#use_session_stack" do
+    it "returns the default mode which is false" do
+      Ariane.use_session_stack.should == false
+    end
+  end
+
+  describe "#use_session_stack=" do
+    it "returns the option set" do
+      Ariane.use_session_stack = true
+      Ariane.use_session_stack.should == true
+    end
+  end
 end

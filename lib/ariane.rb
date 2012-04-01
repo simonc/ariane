@@ -7,7 +7,7 @@ require 'ariane/rails' if defined?(Rails)
 
 module Ariane
   class << self
-    attr_accessor :request
+    attr_accessor :request, :use_session_stack
 
     # Public: Provides a simple way to access Ariane configuration.
     #
@@ -104,6 +104,32 @@ module Ariane
     # Returns the default renderer.
     def default_renderer=(renderer)
       @default_renderer = renderer.is_a?(Class) ? renderer.new : renderer
+    end
+    
+    # Public: Returns session stack setting
+    #
+    # Determines whether Ariane will use the default stateless breadcrumb,
+    # or the session based breadcrumbstack.
+    #
+    # Returns the current or default option.
+    def use_session_stack
+      @use_session_stack ||= false
+    end
+
+    # Public: Returns session stack setting
+    #
+    # Determines whether Ariane will use the default stateless breadcrumb,
+    # or the session based breadcrumbstack.
+    #
+    # Examples
+    #
+    #   Ariane.configure do |config|
+    #       config.use_session_stack = true
+    #   end
+    #
+    # Returns the current option
+    def use_session_stack=(option)
+      @use_session_stack = option
     end
   end
 end
