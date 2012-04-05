@@ -141,7 +141,7 @@ module Ariane
     # Returns the current or default option.
     def use_session_stack
       if defined? @use_session_stack
-       return @user_session_stack 
+       return @use_session_stack 
       else
         return false
       end
