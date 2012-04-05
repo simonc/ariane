@@ -53,7 +53,7 @@ module Ariane
       @session = session
     end
 
-    # Internal: Gets the request environment.
+    # Internal: Gets the user session hash
     #
     # Returns the session object
     def session
@@ -140,7 +140,11 @@ module Ariane
     #
     # Returns the current or default option.
     def use_session_stack
-      @use_session_stack ||= false
+      if defined? @use_session_stack
+       return @user_session_stack 
+      else
+        return false
+      end
     end
 
     # Public: Returns session stack setting
