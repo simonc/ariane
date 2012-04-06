@@ -13,7 +13,7 @@ module Ariane
     # data  - A Hash used to store any data that can be used by renderers
     #        (default: {}).
     def initialize(text='', url=nil, level=1, data={})
-      super
+      super text, url, data
       @level = level
     end
   end
