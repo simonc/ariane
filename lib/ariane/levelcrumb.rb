@@ -1,10 +1,7 @@
 
 module Ariane
-  # Internal: Stores the data related to a single crumb.
+  # Internal: Stores the data related to a single level-based crumb.
   class LevelCrumb < Ariane::Crumb
-    # Public: Gets/Sets the String data of the crumb.
-    # Public: Gets/Sets the String text of the crumb.
-    # Public: Gets/Sets the String url of the crumb.
     # Public: Gets/Sets the Integer level of the crumb.
     attr_accessor :level
 
@@ -16,9 +13,7 @@ module Ariane
     # data  - A Hash used to store any data that can be used by renderers
     #        (default: {}).
     def initialize(text='', url=nil, level=1, data={})
-      @text = text
-      @url  = url
-      @data = data
+      super
       @level = level
     end
   end

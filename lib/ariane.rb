@@ -1,8 +1,8 @@
 require 'ariane/version'
 require 'ariane/crumb'
+require 'ariane/levelcrumb'
 require 'ariane/breadcrumb'
 require 'ariane/breadcrumb_stack'
-require 'ariane/levelcrumb'
 require 'ariane/render'
 
 require 'ariane/rails' if defined?(Rails)
@@ -150,8 +150,7 @@ module Ariane
 
     # Public: Returns session stack setting
     #
-    # Determines whether Ariane will use the default stateless breadcrumb,
-    # or the session based breadcrumbstack.
+    # If true the session based breadcrumb is used, otherwise the static breadcrumb will be used.
     #
     # Returns the current or default option.
     def use_session_stack
