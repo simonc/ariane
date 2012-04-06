@@ -159,8 +159,7 @@ module Ariane
 
     # Public: Returns session stack setting
     #
-    # Determines whether Ariane will use the default stateless breadcrumb,
-    # or the session based breadcrumbstack.
+    # If true the session based breadcrumb is used, otherwise the static breadcrumb will be used.
     #
     # use_session - The Boolean option value
     #

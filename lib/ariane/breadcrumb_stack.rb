@@ -33,9 +33,7 @@ module Ariane
     end
 
     def clear
-      unless crumbs.empty?
-        crumbs.clear
-      end
+      crumbs.clear
     end
   end
 end

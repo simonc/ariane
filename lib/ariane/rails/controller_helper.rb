@@ -4,7 +4,9 @@ module Ariane
 
     # Internal: Sets a hash of cumb levels
     #
-    # Sets a hash of cumb levels for actions that require custom levels
+    # levels - Hash of crumb levels for actions
+    #
+    # Sets a hash of crumb levels for actions that require custom levels
     #
     # Returns nothing.
     def crumb_levels(levels)
@@ -32,10 +34,9 @@ module Ariane
     #
     # Returns nothing
     def auto_set_breadcrumb
-      if ariane.crumbs.empty? 
-        ariane.add("Home", root_path, 1)
-      end
-
+      
+      ariane.add("Home", root_path, 1) if ariane.crumbs.empty? 
+      
       if self.action_name == "index"
         name = self.controller_name.gsub(/_/, " ").capitalize
         level = get_level(2)
