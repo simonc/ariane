@@ -1,22 +1,27 @@
-require 'ariane/crumb'
+require 'ariane/levelcrumb'
 
 module Ariane
-  describe Crumb do
-    subject { Crumb.new }
+  describe LevelCrumb do
+    subject { LevelCrumb.new }
 
     describe ".new" do
       it "sets its text attribute based on the first argument of the initializer" do
-        crumb = Crumb.new('test')
+        crumb = LevelCrumb.new('test')
         crumb.text.should == 'test'
       end
 
       it "sets its url attribute based on the second argument of the initializer" do
-        crumb = Crumb.new('text', 'test-url')
+        crumb = LevelCrumb.new('text', 'test-url')
         crumb.url.should == 'test-url'
       end
 
-      it "sets its data based on third argument of the initializer" do
-        crumb = Crumb.new('text', 'url', :foo => :bar)
+      it "sets its level based on third argument of the initializer" do
+        crumb = LevelCrumb.new('text', 'url', 1)
+        crumb.level.should == 1
+      end
+
+      it "sets its data based on fourth argument of the initializer" do
+        crumb = LevelCrumb.new('text', 'url', 1, :foo => :bar)
         crumb.data.should == { :foo => :bar }
       end
     end

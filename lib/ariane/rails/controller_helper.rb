@@ -17,7 +17,6 @@ module Ariane
     #
     # Returns Ariane.breadcrumb
     def ariane
-      # Set environment and a reference to the session 
       if !Ariane.request_env || Ariane.request != request.object_id
         Ariane.request     = request.object_id
         Ariane.request_env = request.env
@@ -33,16 +32,16 @@ module Ariane
     #
     # Returns nothing
     def auto_set_breadcrumb
-      if ariane.crumbs.empty? || ariane.crumbs.length == 0
+      if ariane.crumbs.empty? 
         ariane.add("Home", root_path, 1)
       end
 
       if self.action_name == "index"
         name = self.controller_name.gsub(/_/, " ").capitalize
-        level = set_level(2)
+        level = get_level(2)
       else
         name = self.action_name.capitalize + " " + self.controller_name.singularize.gsub(/_/, " ").capitalize
-        level = set_level(3)
+        level = get_level(3)
       end
 
       ariane.add(name, request.fullpath, level)
@@ -55,12 +54,10 @@ module Ariane
     # if it exists.
     #
     # Returns level
-    def set_level(default)
-      if @crumb_levels
-        return @crumb_levels[self.action_name.to_sym] ? @crumb_levels[self.action_name.to_sym] : default
-      else
-        return default
-      end
+    def get_level(default)
+      return default unless @crumb_levels
+      action = self.action_name.to_sym
+      @crumb_levels[action] || default
     end
   end
 end

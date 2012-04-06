@@ -2,13 +2,28 @@ require 'ariane/version'
 require 'ariane/crumb'
 require 'ariane/breadcrumb'
 require 'ariane/breadcrumb_stack'
+require 'ariane/levelcrumb'
 require 'ariane/render'
 
 require 'ariane/rails' if defined?(Rails)
 
 module Ariane
   class << self
-    attr_accessor :request, :use_session_stack
+    attr_accessor :request
+    
+    
+    # Public: Provides a configuration option that instructss Ariane
+    # to use the session based BreadcrumbStack
+    #
+    #
+    # Examples
+    #
+    #   Ariane.configure do |config|
+    #     config.use_session_stack = true
+    #   end
+    #
+    # Returns the current setting.
+    attr_accessor :use_session_stack
 
     # Public: Provides a simple way to access Ariane configuration.
     #
@@ -140,17 +155,15 @@ module Ariane
     #
     # Returns the current or default option.
     def use_session_stack
-      if defined? @use_session_stack
-       return @use_session_stack 
-      else
-        return false
-      end
+      defined?(@use_session_stack) ? @use_session_stack : false
     end
 
     # Public: Returns session stack setting
     #
     # Determines whether Ariane will use the default stateless breadcrumb,
     # or the session based breadcrumbstack.
+    #
+    # use_session - The Boolean option value
     #
     # Examples
     #
@@ -159,8 +172,8 @@ module Ariane
     #   end
     #
     # Returns the current option
-    def use_session_stack=(option)
-      @use_session_stack = option
+    def use_session_stack=(use_session)
+      @use_session_stack = use_session
     end
   end
 end

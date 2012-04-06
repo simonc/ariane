@@ -24,14 +24,10 @@ module Ariane
     #
     # Returns nothing.
     def add(*args)
-      new_crumb = Crumb.new(*args)
+      new_crumb = LevelCrumb.new(*args)
       yield new_crumb if block_given?
 
-      unless crumbs.empty?
-        while !crumbs.empty? && crumbs.last.level >= new_crumb.level
-          crumbs.pop
-        end 
-      end
+      crumbs.pop while crumbs.any? && crumbs.last.level >= new_crumb.level
 
       crumbs << new_crumb
     end

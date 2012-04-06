@@ -6,8 +6,7 @@ module Ariane
     # Public: Gets/Sets the String data of the crumb.
     # Public: Gets/Sets the String text of the crumb.
     # Public: Gets/Sets the String url of the crumb.
-    # Public: Gets/Sets the Integer level of the crumb.
-    attr_accessor :text, :url, :level, :data 
+    attr_accessor :text, :url, :data 
 
     # Internal: Initialize a Crumb.
     #
@@ -15,11 +14,10 @@ module Ariane
     # url  - A String representing the url of the crumb (default: nil).
     # data - A Hash used to store any data that can be used by renderers
     #        (default: {}).
-    def initialize(text='', url=nil, level=1, data={})
+    def initialize(text='', url=nil, data={})
       @text = text
       @url  = url
       @data = data
-      @level = level
     end
   end
 end
