@@ -9,7 +9,7 @@ module Ariane
     # Sets a hash of crumb levels for actions that require custom levels
     #
     # Returns nothing.
-    def crumb_levels(levels)
+    def set_crumb_levels(levels)
       @crumb_levels = levels
     end
 
@@ -22,7 +22,7 @@ module Ariane
       if !Ariane.request_env || Ariane.request != request.object_id
         Ariane.request     = request.object_id
         Ariane.request_env = request.env
-        Ariane.session     = session if Ariane.use_session_stack
+        Ariane.session     = session if Ariane.dynamic_breadcrumb
       end
 
       Ariane.breadcrumb
@@ -34,7 +34,6 @@ module Ariane
     #
     # Returns nothing
     def auto_set_breadcrumb
-      
       ariane.add("Home", root_path, 1) if ariane.crumbs.empty? 
       
       if self.action_name == "index"

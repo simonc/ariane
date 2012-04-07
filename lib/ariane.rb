@@ -19,11 +19,11 @@ module Ariane
     # Examples
     #
     #   Ariane.configure do |config|
-    #     config.use_session_stack = true
+    #     config.dynamic_breadcrumb = true
     #   end
     #
     # Returns a Boolean value indicating the current setting.
-    attr_accessor :use_session_stack
+    attr_accessor :dynamic_breadcrumb
 
     # Public: Provides a simple way to access Ariane configuration.
     #
@@ -96,7 +96,7 @@ module Ariane
     #
     # Returns a Breadcrumb.
     def breadcrumb
-      if @use_session_stack
+      if @dynamic_breadcrumb
         @session[:breadcrumb] ||= BreadcrumbStack.new 
       else
         @request_env[:breadcrumb] ||= Breadcrumb.new 
@@ -107,7 +107,7 @@ module Ariane
     #
     # Returns nothing.
     def breadcrumb=(breadcrumb)
-      if @use_session_stack
+      if @dynamic_breadcrumb
         @session[:breadcrumb] = breadcrumb
       else
         @request_env[:breadcrumb] = breadcrumb
@@ -153,8 +153,8 @@ module Ariane
     # If true the session based breadcrumb is used, otherwise the static breadcrumb will be used.
     #
     # Returns the current or default option.
-    def use_session_stack
-      defined?(@use_session_stack) ? @use_session_stack : false
+    def dynamic_breadcrumb
+      defined?(@dynamic_breadcrumb) ? @dynamic_breadcrumb : false
     end
 
     # Public: Returns session stack setting
@@ -166,12 +166,12 @@ module Ariane
     # Examples
     #
     #   Ariane.configure do |config|
-    #       config.use_session_stack = true
+    #       config.dynamic_breadcrumb = true
     #   end
     #
     # Returns the current option
-    def use_session_stack=(use_session)
-      @use_session_stack = use_session
+    def dynamic_breadcrumb=(use_session)
+      @dynamic_breadcrumb = use_session
     end
   end
 end
