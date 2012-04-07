@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'ariane'
 
 describe Ariane do
