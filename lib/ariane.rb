@@ -12,7 +12,7 @@ module Ariane
     attr_accessor :request
     
     
-    # Public: Provides a configuration option that instructss Ariane
+    # Public: Provides a configuration option that instructs Ariane
     # to use the session based BreadcrumbStack
     #
     #
@@ -22,7 +22,7 @@ module Ariane
     #     config.use_session_stack = true
     #   end
     #
-    # Returns the current setting.
+    # Returns a Boolean value indicating the current setting.
     attr_accessor :use_session_stack
 
     # Public: Provides a simple way to access Ariane configuration.

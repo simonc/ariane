@@ -49,7 +49,6 @@ module Ariane
     end
 
 
-    private
 
     # Private: Helper method to retrieve a crumb level from the @crumb_levels hash 
     # if it exists.
@@ -60,6 +59,9 @@ module Ariane
       action = self.action_name.to_sym
       @crumb_levels[action] || default
     end
+
+    private :get_level
+
   end
 end
 
