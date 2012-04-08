@@ -37,11 +37,11 @@ module Ariane
       ariane.add("Home", root_path, 1) if ariane.crumbs.empty? 
       
       if self.action_name == "index"
-        name = self.controller_name.gsub(/_/, " ").capitalize
-        level = get_level(2)
+        name = controller_name.titleize
+        level = get_level || 2
       else
-        name = self.action_name.capitalize + " " + self.controller_name.singularize.gsub(/_/, " ").capitalize
-        level = get_level(3)
+        name = "#{action_name.titleize} #{controller_name.singularize.titleize}"
+        level = get_level || 3
       end
 
       ariane.add(name, request.fullpath, level)
@@ -53,10 +53,8 @@ module Ariane
     # if it exists.
     #
     # Returns level
-    def get_level(default)
-      return default unless @crumb_levels
-      action = self.action_name.to_sym
-      @crumb_levels[action] || default
+    def get_level
+      @crumb_levels[self.action_name.to_sym] if @crumb_levels
     end
 
     private :get_level
