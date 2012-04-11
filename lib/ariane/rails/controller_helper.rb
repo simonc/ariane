@@ -55,10 +55,8 @@ module Ariane
     #
     # Returns level
     def get_level
-      @crumb_levels[self.action_name.to_sym] if @crumb_levels
+      @crumb_levels[self.action_name.to_sym] || @crumb_levels[:default] if @crumb_levels
     end
-
-
   end
 end
 
