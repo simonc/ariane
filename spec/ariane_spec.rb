@@ -52,14 +52,14 @@ describe Ariane do
 
   describe "#dynamic_breadcrumb" do
     it "returns the default mode which is false" do
-      Ariane.dynamic_breadcrumb.should == false
+      Ariane.dynamic_breadcrumb.should be_false
     end
   end
 
   describe "#dynamic_breadcrumb=" do
     it "returns the option set" do
       Ariane.dynamic_breadcrumb = true
-      Ariane.dynamic_breadcrumb.should == true
+      Ariane.dynamic_breadcrumb.should be_true
     end
   end
 end
