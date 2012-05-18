@@ -18,12 +18,12 @@ describe Ariane do
     end
   end
 
-  describe "#request_env=" do
-    it "sets the breacrumb env variable" do
-      Ariane.request_env = {}
-      Ariane.request_env[:breadcrumb].should_not be_nil
-    end
-  end
+  # describe "#request_env=" do
+  #   it "sets the breacrumb env variable" do
+  #     Ariane.request_env = {}
+  #     Ariane.request_env[:breadcrumb].should_not be_nil
+  #   end
+  # end
 
   describe "#breadcrumb" do
     it "returns the breadcrumb from the request_env" do
@@ -50,6 +50,19 @@ describe Ariane do
     it "instanciates the renderer if a class is passed" do
       Ariane.default_renderer = String
       Ariane.default_renderer.should == ""
+    end
+  end
+
+  describe "#dynamic_breadcrumb" do
+    it "returns the default mode which is false" do
+      Ariane.dynamic_breadcrumb.should be_false
+    end
+  end
+
+  describe "#dynamic_breadcrumb=" do
+    it "returns the option set" do
+      Ariane.dynamic_breadcrumb = true
+      Ariane.dynamic_breadcrumb.should be_true
     end
   end
 end
