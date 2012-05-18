@@ -1,6 +1,8 @@
 require 'ariane/version'
 require 'ariane/crumb'
+require 'ariane/levelcrumb'
 require 'ariane/breadcrumb'
+require 'ariane/breadcrumb_stack'
 require 'ariane/render'
 
 require 'ariane/rails' if defined?(Rails)
@@ -8,6 +10,20 @@ require 'ariane/rails' if defined?(Rails)
 module Ariane
   class << self
     attr_accessor :request
+    
+    
+    # Public: Provides a configuration option that instructs Ariane
+    # to use the session based BreadcrumbStack
+    #
+    #
+    # Examples
+    #
+    #   Ariane.configure do |config|
+    #     config.dynamic_breadcrumb = true
+    #   end
+    #
+    # Returns a Boolean value indicating the current setting.
+    attr_accessor :dynamic_breadcrumb
 
     # Public: Provides a simple way to access Ariane configuration.
     #
@@ -32,7 +48,6 @@ module Ariane
     # Returns nothing.
     def request_env=(environment)
       @request_env = environment
-      @request_env[:breadcrumb] ||= Breadcrumb.new
     end
 
     # Internal: Gets the request environment.
@@ -41,6 +56,25 @@ module Ariane
     def request_env
       @request_env if defined?(@request_env)
     end
+
+
+    # Internal: Sets the session
+    #
+    # If the :breadcrumb key is not present in the session, it will be set
+    # to a new instance of Breadcrumb.
+    #
+    # Returns nothing.
+    def session=(session)
+      @session = session
+    end
+
+    # Internal: Gets the user session hash
+    #
+    # Returns the session object
+    def session
+      @session if defined?(@session)
+    end
+
 
     # Internal: Gets the request id.
     #
@@ -62,14 +96,22 @@ module Ariane
     #
     # Returns a Breadcrumb.
     def breadcrumb
-      @request_env[:breadcrumb]
+      if @dynamic_breadcrumb
+        @session[:breadcrumb] ||= BreadcrumbStack.new 
+      else
+        @request_env[:breadcrumb] ||= Breadcrumb.new 
+      end
     end
 
     # Internal: Sets the Breadcrumb.
     #
     # Returns nothing.
     def breadcrumb=(breadcrumb)
-      @request_env[:breadcrumb] = breadcrumb
+      if @dynamic_breadcrumb
+        @session[:breadcrumb] = breadcrumb
+      else
+        @request_env[:breadcrumb] = breadcrumb
+      end
     end
 
     # Public: Returns the default renderer used by Ariane.
@@ -104,6 +146,32 @@ module Ariane
     # Returns the default renderer.
     def default_renderer=(renderer)
       @default_renderer = renderer.is_a?(Class) ? renderer.new : renderer
+    end
+
+    # Public: Returns session stack setting
+    #
+    # If true the session based breadcrumb is used, otherwise the static breadcrumb will be used.
+    #
+    # Returns the current or default option.
+    def dynamic_breadcrumb
+      defined?(@dynamic_breadcrumb) ? @dynamic_breadcrumb : false
+    end
+
+    # Public: Returns session stack setting
+    #
+    # If true the session based breadcrumb is used, otherwise the static breadcrumb will be used.
+    #
+    # use_session - The Boolean option value
+    #
+    # Examples
+    #
+    #   Ariane.configure do |config|
+    #       config.dynamic_breadcrumb = true
+    #   end
+    #
+    # Returns the current option
+    def dynamic_breadcrumb=(use_session)
+      @dynamic_breadcrumb = use_session
     end
   end
 end

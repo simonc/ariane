@@ -6,7 +6,7 @@ module Ariane
     # Public: Gets/Sets the String data of the crumb.
     # Public: Gets/Sets the String text of the crumb.
     # Public: Gets/Sets the String url of the crumb.
-    attr_accessor :data, :text, :url
+    attr_accessor :text, :url, :data 
 
     # Internal: Initialize a Crumb.
     #
