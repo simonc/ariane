@@ -101,12 +101,18 @@ module Ariane
 
         it "sets the link class" do
           @html.options[:link_class] = 'test'
-          @html.link(@crumb).should == '<a href="url" class="test">text</a>'
+          @html.link(@crumb).should =~ /<a /
+          @html.link(@crumb).should =~ /class\=\"test\"/
+          @html.link(@crumb).should =~ /href\=\"url\"/
+          @html.link(@crumb).should =~ /text\<\/a\>/
         end
 
         it "sets the active class when the crumb is active and link_active is true" do
           @html.options[:link_active] = true
-          @html.link(@crumb, true).should == '<a href="url" class="active">text</a>'
+          @html.link(@crumb, true).should =~ /<a /
+          @html.link(@crumb, true).should =~ /class\=\"active\"/
+          @html.link(@crumb, true).should =~ /href\=\"url\"/
+          @html.link(@crumb, true).should =~ /text\<\/a\>/
         end
 
         it "returns a link if the crumb has an url" do
