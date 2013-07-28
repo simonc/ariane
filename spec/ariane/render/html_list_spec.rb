@@ -71,7 +71,8 @@ module Ariane
 
         it "sets the link class" do
           @html_list.options[:link_class] = 'test'
-          @html_list.link(@crumb).should == '<a href="url" class="test">text</a>'
+          @html_list.link(@crumb).should =~ /<a /
+          @html_list.link(@crumb).should =~ /class\=\"test\"/
         end
 
         it "returns a link if the crumb has an url" do
