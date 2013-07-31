@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0
+
+* Now tested against Rails 4, Ruby 2 (#11 - @petergoldstein)
+* Opt-in session based breadcrumb (#7 - @58bits)
+
 ## 0.0.3
 
 * FIX: The HTMLList divider is now rendered correctly (@PatrickMa)
