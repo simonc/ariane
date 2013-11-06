@@ -5,24 +5,22 @@ module Ariane
     subject { LevelCrumb.new }
 
     describe ".new" do
+      subject(:crumb) { LevelCrumb.new('text', 'url', 1, foo: :bar) }
+
       it "sets its text attribute based on the first argument of the initializer" do
-        crumb = LevelCrumb.new('test')
-        expect(crumb.text).to eq 'test'
+        expect(crumb.text).to eq 'text'
       end
 
       it "sets its url attribute based on the second argument of the initializer" do
-        crumb = LevelCrumb.new('text', 'test-url')
-        expect(crumb.url).to eq 'test-url'
+        expect(crumb.url).to eq 'url'
       end
 
       it "sets its level based on third argument of the initializer" do
-        crumb = LevelCrumb.new('text', 'url', 1)
         expect(crumb.level).to eq 1
       end
 
       it "sets its data based on fourth argument of the initializer" do
-        crumb = LevelCrumb.new('text', 'url', 1, :foo => :bar)
-        expect(crumb.data).to eq({ :foo => :bar })
+        expect(crumb.data).to eq(foo: :bar)
       end
     end
 

@@ -4,61 +4,71 @@ module Ariane
   module Render
 
     describe HTML do
+      subject(:html) { HTML.new }
+
+      let(:crumb) { Crumb.new('text', 'url') }
+      let(:crumbs) { [Crumb.new('text1', 'url1'), Crumb.new('text2', 'url2')] }
+
       it "has an output_buffer" do
-        expect(HTML.new.respond_to?(:output_buffer)).to be_true
+        expect(html).to respond_to(:output_buffer)
       end
 
       it "has a setter for the output_buffer" do
-        expect(HTML.new.respond_to?(:"output_buffer=")).to be_true
+        expect(html).to respond_to(:'output_buffer=')
       end
 
       describe "#initialize" do
         it "sets default options" do
-          expect(HTML.new.options[:list_class]).to eq 'breadcrumb'
-        end
-
-        it "merges the options passed as argument to the default ones" do
-          html = HTML.new(list_id: 'test')
-          expect(html.options[:list_id]).to eq 'test'
           expect(html.options[:list_class]).to eq 'breadcrumb'
         end
 
+        context "when new is called with options" do
+          subject(:html) { HTML.new(list_id: 'test') }
+
+          it "merges the passed options to the default ones" do
+            expect(html.options[:list_id]).to eq 'test'
+            expect(html.options[:list_class]).to eq 'breadcrumb'
+          end
+        end
+
         it "calls uses Base default options" do
-          expect(HTML.new.options[:divider]).to eq ' / '
+          expect(html.options[:divider]).to eq ' / '
         end
       end
 
       describe "#render" do
+        let(:output) { html.render([]) }
+
         it "returns an html_safe string" do
-          html = HTML.new
           html.stub(:list).and_return('test')
-          expect(html.render([]).html_safe?).to be_true
+          expect(output).to be_html_safe
         end
       end
 
       describe "#list" do
-        it "returns an HTML paragraph with list_id and list_class" do
-          html = HTML.new(list_id: 'test')
-          expect(html.list([])).to eq '<p class="breadcrumb" id="test"></p>'
+        let(:output) { html.list(crumbs) }
+
+        context "when HTML is given a list id" do
+          subject(:html) { HTML.new(list_id: 'test') }
+
+          it "returns an HTML paragraph with correct list id" do
+            expect(output).to match /<p[^>]* id="test"[^>]*>/
+          end
         end
 
         it "returns an HTML paragraph containing crumbs" do
-          html   = HTML.new
-          crumbs = [Crumb.new('text1', 'url1'), Crumb.new('text2', 'url2')]
-          expect(html.list(crumbs)).to eq '<p class="breadcrumb"><a href="url1">text1</a> / text2</p>'
+          expect(output).to match %r[<p[^>]*><a href="url1">text1</a> / text2</p>]
         end
       end
 
       describe "#items" do
+        let(:output) { html.items(crumbs) }
+
         it "returns all crumbs in a formatted form" do
-          html   = HTML.new
-          crumbs = [Crumb.new('text1', 'url1'), Crumb.new('text2', 'url2')]
-          expect(html.items(crumbs)).to eq '<a href="url1">text1</a> / text2'
+          expect(output).to eq '<a href="url1">text1</a> / text2'
         end
 
         it "sets the active flag for the last item" do
-          html   = HTML.new
-          crumbs = [Crumb.new('text', 'url'), Crumb.new('text', 'url')]
           expect(html).to receive(:item).with(crumbs.first, false).and_return('')
           expect(html).to receive(:item).with(crumbs.last, true).and_return('')
           html.items(crumbs)
@@ -66,80 +76,89 @@ module Ariane
       end
 
       describe "#item" do
-        before :each do
-          @html  = HTML.new
-          @crumb = Crumb.new 'text', 'url'
-        end
+        let(:output) { html.item(crumb) }
 
         it "returns the crumb in a formatted form" do
-          expect(@html.item(@crumb)).to match(%r[^<a href="url">text</a>])
+          expect(output).to start_with '<a href="url">text</a>'
         end
 
         it "appends the divider to the crumb" do
-          expect(@html.item(@crumb)).to match(%r[ / $])
+          expect(output).to end_with ' / '
         end
 
-        it "does not append the divider if the crumb is active" do
-          expect(@html.item(@crumb, true)).to_not match(%r[ / $])
+        context "when the crumb is active" do
+          let(:output) { html.item(crumb, true) }
+
+          it "does not append the divider" do
+            expect(output).to_not end_with ' / '
+          end
         end
 
-        it "uses the divider from options, not the divider method" do
-          @html.options[:divider] = 'custom'
-          expect(@html.item(@crumb)).to match(/custom/)
+        context "when a custom divider is set" do
+          before do
+            html.options[:divider] = 'custom'
+          end
+
+          it "uses the divider from options" do
+            expect(output).to match /custom/
+          end
         end
       end
 
       describe "#link" do
-        before do
-          @html  = HTML.new
-          @crumb = Crumb.new 'text', 'url'
-        end
+        let(:output) { html.link(crumb) }
 
         it "returns the link for the crumb" do
-          expect(@html.link(@crumb)).to eq '<a href="url">text</a>'
+          expect(output).to eq '<a href="url">text</a>'
         end
 
         it "sets the link class" do
-          @html.options[:link_class] = 'test'
-          expect(@html.link(@crumb)).to match(/<a /)
-          expect(@html.link(@crumb)).to match(/class\=\"test\"/)
-          expect(@html.link(@crumb)).to match(/href\=\"url\"/)
-          expect(@html.link(@crumb)).to match(/text\<\/a\>/)
+          html.options[:link_class] = 'test'
+          expect(output).to match /<a[^>]* class="test"/
         end
 
-        it "sets the active class when the crumb is active and link_active is true" do
-          @html.options[:link_active] = true
-          expect(@html.link(@crumb, true)).to match(/<a /)
-          expect(@html.link(@crumb, true)).to match(/class\=\"active\"/)
-          expect(@html.link(@crumb, true)).to match(/href\=\"url\"/)
-          expect(@html.link(@crumb, true)).to match(/text\<\/a\>/)
+        context "when the crumb is active" do
+          let(:output) { html.link(crumb, true) }
+
+          context "and link_active is true" do
+            before do
+              html.options[:link_active] = true
+            end
+
+            it "returns a link with the active class" do
+              expect(output).to match(/<a[^>]* class="active"/)
+            end
+          end
+
+          context "and link_active is true" do
+            it "returns crumb's text" do
+              expect(output).to eq crumb.text
+            end
+          end
         end
 
-        it "returns a link if the crumb has an url" do
-          expect(@html.link(@crumb)).to eq '<a href="url">text</a>'
+        context "when the crumb has an url" do
+          it "returns a link" do
+            expect(output).to eq '<a href="url">text</a>'
+          end
+
+          it "returns an html_safe string" do
+            expect(output).to be_html_safe
+          end
         end
 
-        it "returns a link if the crumb is active and link_active is true" do
-          @html.options[:link_active] = true
-          expect(@html.link(@crumb, true)).to match(/<a /)
-        end
+        context "when the crumb has no url" do
+          before do
+            crumb.url = nil
+          end
 
-        it "returns crumb's text if the crumb has no url" do
-          @crumb.url = nil
-          expect(@html.link(@crumb)).to eq @crumb.text
-        end
+          it "returns crumb's text" do
+            expect(output).to eq crumb.text
+          end
 
-        it "returns crumb's text if the crumb is active and link_active is false" do
-          expect(@html.link(@crumb, true)).to eq @crumb.text
-        end
-
-        it "returns an html_safe string when it returns a link" do
-          expect(@html.link(@crumb).html_safe?).to be_true
-        end
-
-        it "returns an html_safe string when it returns text" do
-          @crumb.url = nil
-          expect(@html.link(@crumb).html_safe?).to be_true
+          it "returns an html_safe string" do
+            expect(output).to be_html_safe
+          end
         end
       end
     end

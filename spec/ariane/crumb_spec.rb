@@ -16,8 +16,8 @@ module Ariane
       end
 
       it "sets its data based on third argument of the initializer" do
-        crumb = Crumb.new('text', 'url', :foo => :bar)
-        expect(crumb.data).to eq({ :foo => :bar })
+        crumb = Crumb.new('text', 'url', foo: :bar)
+        expect(crumb.data).to eq(foo: :bar)
       end
     end
 

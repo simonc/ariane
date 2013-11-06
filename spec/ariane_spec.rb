@@ -4,7 +4,7 @@ SimpleCov.start
 require 'ariane'
 
 describe Ariane do
-  before :each do
+  before do
     Ariane.request_env      = {}
     Ariane.default_renderer = nil
   end
@@ -27,29 +27,29 @@ describe Ariane do
 
   describe "#breadcrumb" do
     it "returns the breadcrumb from the request_env" do
-      Ariane.request_env[:breadcrumb] = "test_breadcrumb"
-      expect(Ariane.breadcrumb).to eq "test_breadcrumb"
+      Ariane.request_env[:breadcrumb] = 'test_breadcrumb'
+      expect(Ariane.breadcrumb).to eq 'test_breadcrumb'
     end
   end
 
   describe "#breadcrumb=" do
     it "sets the breadcrumb in the request_env" do
-      Ariane.breadcrumb = "test_breadcrumb"
-      expect(Ariane.request_env[:breadcrumb]).to eq "test_breadcrumb"
+      Ariane.breadcrumb = 'test_breadcrumb'
+      expect(Ariane.request_env[:breadcrumb]).to eq 'test_breadcrumb'
     end
   end
 
   describe "#default_renderer" do
     it "returns the default renderer" do
-      Ariane.default_renderer = "test_renderer"
-      expect(Ariane.default_renderer).to eq "test_renderer"
+      Ariane.default_renderer = 'test_renderer'
+      expect(Ariane.default_renderer).to eq 'test_renderer'
     end
   end
 
   describe "#default_renderer=" do
     it "instanciates the renderer if a class is passed" do
       Ariane.default_renderer = String
-     expect(Ariane.default_renderer).to eq ""
+     expect(Ariane.default_renderer).to eq ''
     end
   end
 
