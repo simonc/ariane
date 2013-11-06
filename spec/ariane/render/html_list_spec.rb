@@ -6,32 +6,32 @@ module Ariane
     describe HTMLList do
       describe "#initialize" do
         it "sets default options" do
-          HTMLList.new.options.has_key?(:item_class).should be_true
+          expect(HTMLList.new.options.has_key?(:item_class)).to be_true
         end
 
         it "merges the options passed as argument to the default ones" do
           html_list = HTMLList.new(item_class: 'test')
-          html_list.options[:item_class].should == 'test'
-          html_list.options[:list_class].should == 'breadcrumb'
+          expect(html_list.options[:item_class]).to eq 'test'
+          expect(html_list.options[:list_class]).to eq 'breadcrumb'
         end
 
         it "calls uses HTML default options" do
           html      = HTML.new
           html_list = HTMLList.new
-          html_list.options[:list_class].should == html.options[:list_class]
+          expect(html_list.options[:list_class]).to eq html.options[:list_class]
         end
       end
 
       describe "#list" do
         it "returns an HTML list with list_id and list_class" do
           html_list = HTMLList.new(list_id: 'test')
-          html_list.list([]).should == '<ul class="breadcrumb" id="test"></ul>'
+          expect(html_list.list([])).to eq '<ul class="breadcrumb" id="test"></ul>'
         end
 
         it "returns an HTML list containing crumbs" do
           html_list = HTMLList.new
           crumbs = [Crumb.new('text', 'url')]
-          html_list.list(crumbs).should =~ %r[<ul class="breadcrumb">.*li.*</ul>]
+          expect(html_list.list(crumbs)).to match(%r[<ul class="breadcrumb">.*li.*</ul>])
         end
       end
 
@@ -42,20 +42,20 @@ module Ariane
         end
 
         it "returns the crumb in a formatted form" do
-          @html_list.item(@crumb).should =~ %r[^<li><a href="url">text</a>]
+          expect(@html_list.item(@crumb)).to match(%r[^<li><a href="url">text</a>])
         end
 
         it "appends the divider to the crumb" do
-          @html_list.item(@crumb).should =~ %r[<span class="divider">/</span></li>$]
+          expect(@html_list.item(@crumb)).to match(%r[<span class="divider">/</span></li>$])
         end
 
         it "does not append the divider if the crumb is active" do
-          @html_list.item(@crumb, true).should_not =~ %r[<span class="divider">/</span></li>$]
+          expect(@html_list.item(@crumb, true)).to_not match(%r[<span class="divider">/</span></li>$])
         end
 
         it "uses the divider from options, not the divider method" do
           @html_list.options[:divider] = 'custom'
-          @html_list.item(@crumb).should =~ /custom/
+          expect(@html_list.item(@crumb)).to match(/custom/)
         end
       end
 
@@ -66,50 +66,50 @@ module Ariane
         end
 
         it "returns the link for the crumb" do
-          @html_list.link(@crumb).should == '<a href="url">text</a>'
+         expect(@html_list.link(@crumb)).to eq '<a href="url">text</a>'
         end
 
         it "sets the link class" do
           @html_list.options[:link_class] = 'test'
-          @html_list.link(@crumb).should =~ /<a /
-          @html_list.link(@crumb).should =~ /class\=\"test\"/
+          expect(@html_list.link(@crumb)).to match(/<a /)
+          expect(@html_list.link(@crumb)).to match(/class\=\"test\"/)
         end
 
         it "returns a link if the crumb has an url" do
-          @html_list.link(@crumb).should == '<a href="url">text</a>'
+          expect(@html_list.link(@crumb)).to eq '<a href="url">text</a>'
         end
 
         it "returns a link if the crumb is active and link_active is true" do
           @html_list.options[:link_active] = true
-          @html_list.link(@crumb, true).should =~ /<a /
+          expect(@html_list.link(@crumb, true)).to match(/<a /)
         end
 
         it "returns crumb's text if the crumb has no url" do
           @crumb.url = nil
-          @html_list.link(@crumb).should == @crumb.text
+          expect(@html_list.link(@crumb)).to eq @crumb.text
         end
 
         it "returns crumb's text if the crumb is active and link_active is false" do
-          @html_list.link(@crumb, true).should == @crumb.text
+          expect(@html_list.link(@crumb, true)).to eq @crumb.text
         end
 
         it "returns an html_safe string when it returns a link" do
-          @html_list.link(@crumb).html_safe?.should be_true
+          expect(@html_list.link(@crumb).html_safe?).to be_true
         end
 
         it "returns an html_safe string when it returns text" do
           @crumb.url = nil
-          @html_list.link(@crumb).html_safe?.should be_true
+          expect(@html_list.link(@crumb).html_safe?).to be_true
         end
       end
 
       describe "#divider" do
         it "returns the HTML list divider" do
-          HTMLList.new.divider.should == '<span class="divider">/</span>'
+          expect(HTMLList.new.divider).to eq '<span class="divider">/</span>'
         end
 
         it "returns the HTML list divider for a custom divider" do
-          HTMLList.new(divider: ' > ').divider.should == '<span class="divider">&gt;</span>'
+          expect(HTMLList.new(divider: ' > ').divider).to eq '<span class="divider">&gt;</span>'
         end
       end
     end
