@@ -1,5 +1,7 @@
 # Ariane [![Build Status](https://secure.travis-ci.org/simonc/ariane.png?branch=master)](http://travis-ci.org/simonc/ariane)
 
+**Ariane is not maintained anymore. Take a look at [breadcrumbs_on_rails](https://github.com/weppos/breadcrumbs_on_rails) instead.**
+
 Ariane is a flexible breadcrumb system for Rails. And it's fully compatible with 
 the [Twitter Bootstrap](http://twitter.github.com/bootstrap/) !
 
